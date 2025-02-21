@@ -27,7 +27,7 @@ envs/.env.dev
 
 # Environment files
 envs/.env.*
-!envs/.env.template
+!envs/.env.example
 
 # VS Code
 .vscode/
