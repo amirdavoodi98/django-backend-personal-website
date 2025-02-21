@@ -9,3 +9,6 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
 # CORS settings for local development
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+# Database Configuration
+DATABASES = {"default": env.db(default="sqlite:///db.sqlite3")}
