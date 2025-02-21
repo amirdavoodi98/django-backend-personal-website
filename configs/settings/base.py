@@ -1,6 +1,8 @@
 from pathlib import Path
 
 import environ
+import dj_database_url
+
 
 # Initialize environment variables
 env = environ.Env()
@@ -112,7 +114,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Add Redis configuration
-REDIS_URL = env.str("REDIS_URL", default="redis://redis:6379/0")
+# REDIS_URL = env.str("REDIS_URL", default="redis://redis:6379/0")
 
 # Update REST_FRAMEWORK settings
 REST_FRAMEWORK = {
@@ -141,7 +143,12 @@ SPECTACULAR_SETTINGS = {
 }
 
 # Database Configuration
-DATABASES = {"default": env.db()}
+DATABASE_URL = env.str('DATABASE_URL')
+
+# Configure Django to use this URL for the database connection
+DATABASES = {
+    'default': dj_database_url.config(default=DATABASE_URL)
+}
 
 # Ensure database connections are properly handled
 CONN_MAX_AGE = env.int("CONN_MAX_AGE", 60)

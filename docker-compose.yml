@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./envs/.env.local
+    networks:
+      - backend
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - ./envs/.env.local
+    networks:
+      - backend
+
+  redis:
+    image: redis:6
+    networks:
+      - backend
+    ports:
+      - "6379:6379"
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  postgres_data:
