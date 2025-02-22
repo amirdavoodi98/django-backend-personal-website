@@ -3,16 +3,21 @@ version: '3'
 services:
   db:
     image: postgres:14
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    container_name: postgres_db
+    restart: always
     env_file:
       - ./envs/.env.local
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - backend
 
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
+    restart: always
     volumes:
       - .:/app
     ports:
